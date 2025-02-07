@@ -5,7 +5,7 @@ export default function Index() {
   let [movies, setMovies] = useState([]);
   useEffect(() => {
     const getData = async () => {
-      const response = await fetch("/api/addresses");
+      const response = await fetch("/api/search/get-address");
       const data = await response.json();
       console.log(data);
     };

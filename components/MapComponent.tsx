@@ -9,8 +9,9 @@ import {
   ZoomControl,
 } from "react-leaflet";
 import { useState } from "react";
-import L, { Icon } from "leaflet";
+import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import axios from "axios";
 
 const MovingMarker = () => {
   const map = useMap();
@@ -31,18 +32,25 @@ const MovingMarker = () => {
     },
   });
 
-  const getData = async () => {
-    const response = await fetch("/api/addresses");
-    const data = await response.json();
-    console.log(data);
+  const getData = async (lat: number, lng: number) => {
+    const response = await axios.get("/api/search/get-address", {
+      params: {
+        lat,
+        lng,
+      },
+    });
+    console.log(response.data);
+
+    // const data = await response.json();
+    // console.log(data);
   };
 
   const handleGetData = () => {
     // const bounds = map.getBounds();
-    const center = map.getCenter();
+    const { lat, lng } = map.getCenter();
+    getData(lat, lng);
     // const zoom = map.getZoom();
-    getData();
-    console.log(center);
+    // console.log(center);
     // console.log(bounds);
   };
 
@@ -55,9 +63,9 @@ const MovingMarker = () => {
 
 const MapComponent = () => {
   return (
-    <div className="w-[500px] h-[500px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+    <div className="w-[500px] h-[500px] relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <MapContainer
-        center={[35.6892, 51.389]} // Centered on Tehran
+        center={[35.6892, 51.389]}
         zoom={12}
         style={{ height: "100%", width: "100%" }}
         zoomControl={false}
@@ -70,6 +78,14 @@ const MapComponent = () => {
         />
         <MovingMarker />
       </MapContainer>
+      <div className="absolute top-4 left-[1rem] bg-white rounded shadow z-[1000] w-[calc(100%-2rem)]">
+        <input
+          type="text"
+          placeholder="جستجو"
+          className="p-2 border border-gray-300 rounded w-full outline-none text-sm"
+          dir="rtl"
+        />
+      </div>
     </div>
   );
 };

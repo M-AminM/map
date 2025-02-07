@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "DanaRegular";
+  font-display: swap;
+  src: url("../assets/fonts/DANA-FANUM-REGULAR.TTF");
+}
+
+body {
+  margin: 0;
+  font-family: "DanaRegular", sans-serif, tahoma;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
