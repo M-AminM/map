@@ -6,17 +6,11 @@ import {
   Marker,
   useMapEvents,
   useMap,
+  ZoomControl,
 } from "react-leaflet";
 import { useState } from "react";
 import L, { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
-
-// const customIcon = new L.Icon({
-//   iconUrl: L.icon({ iconUrl: "./icon.svg" }), // Update with your custom marker image path
-//   iconSize: [32, 32], // Adjust size as needed
-//   iconAnchor: [16, 32],
-//   popupAnchor: [0, -32],
-// } as any);
 
 const MovingMarker = () => {
   const map = useMap();
@@ -31,35 +25,30 @@ const MovingMarker = () => {
     move: (e) => {
       setPosition([e.target.getCenter().lat, e.target.getCenter().lng]);
     },
+    moveend: (e) => {
+      // When the map stops moving, log the map details.
+      handleGetData();
+    },
   });
 
-  const handleGetData = () => {
-    const bounds = map.getBounds();
-    const center = map.getCenter();
-    const zoom = map.getZoom();
-    console.log({
-      bounds: {
-        northEast: bounds.getNorthEast(),
-        southWest: bounds.getSouthWest(),
-      },
-      center: {
-        lat: center.lat,
-        lng: center.lng,
-      },
-      zoom,
-    });
+  const getData = async () => {
+    const response = await fetch("/api/addresses");
+    const data = await response.json();
+    console.log(data);
   };
+
+  const handleGetData = () => {
+    // const bounds = map.getBounds();
+    const center = map.getCenter();
+    // const zoom = map.getZoom();
+    getData();
+    console.log(center);
+    // console.log(bounds);
+  };
+
   return (
     <>
       <Marker position={position} icon={customIcon} />
-      <div className="w-[calc(100%">
-        <button
-          onClick={handleGetData}
-          className="absolute bottom-0 z-[1000] bg-[#b400ae] text-white w-full"
-        >
-          تایید موقعیت مکانی روی نقشه
-        </button>
-      </div>
     </>
   );
 };
@@ -71,7 +60,10 @@ const MapComponent = () => {
         center={[35.6892, 51.389]} // Centered on Tehran
         zoom={12}
         style={{ height: "100%", width: "100%" }}
+        zoomControl={false}
+        attributionControl={false}
       >
+        <ZoomControl position="bottomleft" />
         <TileLayer
           url="https://raster.snappmaps.ir/styles/snapp-style/{z}/{x}/{y}{r}.png"
           attribution="&copy; <a href='https://snappmaps.ir/'>SnappMaps</a> contributors"
