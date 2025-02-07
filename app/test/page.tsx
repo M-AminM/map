@@ -1,13 +1,17 @@
 "use client";
+import axios from "axios";
 import { useState, useEffect } from "react";
 
 export default function Index() {
   let [movies, setMovies] = useState([]);
   useEffect(() => {
     const getData = async () => {
-      const response = await fetch("/api/search/get-address");
-      const data = await response.json();
-      console.log(data);
+      const response = await axios("/api/search/search-address", {
+        params: {
+          address: "ت",
+        },
+      });
+      console.log(response);
     };
     getData();
   }, []);

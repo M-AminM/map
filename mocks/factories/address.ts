@@ -1,8 +1,8 @@
 import { Factory } from "miragejs";
 
 export default {
-  search: Factory.extend({
-    search() {
+  address: Factory.extend({
+    address() {
       return ["tehran", "tajrish"];
     },
   }),
