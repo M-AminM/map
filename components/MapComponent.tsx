@@ -8,6 +8,8 @@ import MovingMarker from "./MovingMarker";
 import "leaflet/dist/leaflet.css";
 import Search from "./Search";
 import Dropdown from "./Dropdown";
+import Image from "next/image";
+import location from "@/assets/images/location.svg";
 
 const MapComponent = () => {
   const [address, setAddress] = useState("");
@@ -70,6 +72,21 @@ const MapComponent = () => {
     if (e.target.value === "") setList([]);
     setAddress(e.target.value);
   };
+  const handleGetLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude } = pos.coords;
+          setPosition([latitude, longitude]);
+        },
+        (err) => {
+          console.error("Error: ", err);
+        }
+      );
+    } else {
+      console.error("Error");
+    }
+  };
 
   return (
     <div className="w-[500px] h-[500px] relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -101,6 +118,12 @@ const MapComponent = () => {
           <Dropdown list={list} handleSearch={handleSearch} />
         )}
       </div>
+      <button
+        onClick={handleGetLocation}
+        className="absolute bottom-2 right-2 z-[1000] bg-white p-2 rounded shadow"
+      >
+        <Image src={location} alt="" width={20} height={20} />
+      </button>
     </div>
   );
 };
