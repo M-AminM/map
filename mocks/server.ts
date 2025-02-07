@@ -40,11 +40,9 @@ export function makeServer({ environment = "development" } = {}) {
       this.get("/search/get-address", (schema: any, request) => {
         let { lat, lng } = request.queryParams;
 
-        // Optionally convert the values to numbers
         const latNum = Number(lat);
         const lngNum = Number(lng);
 
-        // Return a mocked address response based on the coordinates
         return {
           data: schema.addresses.first().attrs,
           latNum,
