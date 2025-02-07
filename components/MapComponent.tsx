@@ -91,8 +91,8 @@ const MovingMarker = ({ position, setPosition, manualMoveRef }: any) => {
 };
 
 const MapComponent = () => {
-  const [query, setQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [address, setAddress] = useState("");
+
   const [list, setList] = useState([]);
   const [position, setPosition] = useState<[number, number]>([35.6892, 51.389]);
   // Ref to track whether movement is manual or programmatic.
@@ -100,29 +100,18 @@ const MapComponent = () => {
 
   // Debounce query input.
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedQuery(query);
+    const getData = setTimeout(() => {
+      axios
+        .get("/api/search/search-address", {
+          params: { address },
+        })
+        .then((response) => {
+          setList(response.data.searches);
+        });
     }, 500);
-    return () => clearTimeout(handler);
-  }, [query]);
 
-  // Search API call.
-  const getDataForSearch = async () => {
-    try {
-      const response = await axios.get("/api/search/search-address", {
-        params: { address: debouncedQuery },
-      });
-      setList(response.data.searches);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    if (debouncedQuery) {
-      getDataForSearch();
-    }
-  }, [debouncedQuery]);
+    return () => clearTimeout(getData);
+  }, [address]);
 
   // When a search result is clicked, update the marker's position.
   const handleSearch = (lat: number, lng: number) => {
@@ -157,8 +146,8 @@ const MapComponent = () => {
           placeholder="جستجو"
           className="p-2 border border-gray-300 rounded w-full outline-none text-sm"
           dir="rtl"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
         />
         {list.map((item: any) => (
           <div key={item?.id}>
