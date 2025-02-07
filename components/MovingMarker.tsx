@@ -1,6 +1,7 @@
 import React, { forwardRef, memo } from "react";
 import { Icon } from "leaflet";
 import { Marker, useMapEvents } from "react-leaflet";
+import iconImage from "@/assets/images/icon.svg";
 
 const MovingMarker = forwardRef(function MovingMarker(
   { position, setPosition }: any,
@@ -9,9 +10,8 @@ const MovingMarker = forwardRef(function MovingMarker(
   const areEqual = (a: number, b: number) => Math.abs(a - b) < 0.00001;
 
   const customIcon = new Icon({
-    iconUrl:
-      "https://cdn-icons-png.freepik.com/256/12662/12662347.png?semt=ais_hybrid",
-    iconSize: [38, 38],
+    iconUrl: iconImage.src,
+    iconSize: [30, 30],
   });
 
   useMapEvents({

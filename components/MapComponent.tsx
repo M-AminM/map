@@ -11,20 +11,23 @@ const MapComponent = () => {
   const [address, setAddress] = useState("");
   const [list, setList] = useState([]);
   const [position, setPosition] = useState<[number, number]>([35.6892, 51.389]);
+  const [isAutoOpen, setIsAutoOpen] = useState(true);
   const manualMoveRef = useRef(true);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const getData = setTimeout(() => {
-      axios
-        .get("/api/search/search-address", {
-          params: { address },
-        })
-        .then((response) => {
-          setList(response.data.searches);
-        });
-    }, 500);
-
-    return () => clearTimeout(getData);
+    if (address) {
+      const getData = setTimeout(() => {
+        axios
+          .get("/api/search/search-address", {
+            params: { address },
+          })
+          .then((response) => {
+            setList(response.data.searches);
+          });
+      }, 500);
+      return () => clearTimeout(getData);
+    } else setList([]);
   }, [address]);
 
   useEffect(() => {
@@ -39,18 +42,37 @@ const MapComponent = () => {
         .catch((error) => console.error("API error:", error));
     }, 500);
 
-    // If the position changes again before 500ms, clear the timer.
     return () => clearTimeout(timer);
   }, [position]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setIsAutoOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setIsAutoOpen]);
+
   const handleSearch = (lat: number, lng: number) => {
     setPosition([lat, lng]);
+    setList([]);
+    setAddress("");
+  };
+
+  const handleChange = (e: any) => {
+    if (e.target.value === "") setList([]);
+    setAddress(e.target.value);
   };
 
   return (
     <div className="w-[500px] h-[500px] relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <MapContainer
-        center={[35.6892, 51.389]}
+        center={[35.689648586960935, 51.38923645019532]}
         zoom={12}
         className="h-full w-full"
         zoomControl={false}
@@ -72,17 +94,25 @@ const MapComponent = () => {
           className="p-2 border border-gray-300 rounded w-full outline-none text-sm"
           dir="rtl"
           value={address}
-          onChange={(e) => setAddress(e.target.value)}
+          onChange={handleChange}
         />
-        {list.map((item: any) => (
-          <div key={item?.id}>
-            <ul>
-              <li onClick={() => handleSearch(item?.lat, item?.lng)}>
-                <p>{item?.name}</p>
-              </li>
-            </ul>
-          </div>
-        ))}
+        {isAutoOpen && address.trim() !== "" && (
+          <>
+            {list.map((item: any) => (
+              <div
+                className="flex flex-col justify-end items-end cursor-pointer p-1"
+                key={item?.id}
+                onClick={() => handleSearch(item?.lat, item?.lng)}
+              >
+                <ul>
+                  <li>
+                    <p className="text-sm">{item?.name}</p>
+                  </li>
+                </ul>
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
