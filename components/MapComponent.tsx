@@ -70,6 +70,7 @@ const MapComponent = () => {
 
   const handleChange = (e: any) => {
     if (e.target.value === "") setList([]);
+    if (e.target.value !== "" && !isAutoOpen) setIsAutoOpen(true);
     setAddress(e.target.value);
   };
   const handleGetLocation = () => {
@@ -115,7 +116,9 @@ const MapComponent = () => {
           dir="rtl"
         />
         {isAutoOpen && address.trim() !== "" && (
-          <Dropdown list={list} handleSearch={handleSearch} />
+          <div ref={ref}>
+            <Dropdown list={list} handleSearch={handleSearch} />
+          </div>
         )}
       </div>
       <button
