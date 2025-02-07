@@ -14,3 +14,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 1px 3px 0 rgba(33, 33, 33, 20%),
+    0 2px 1px -1px rgba(33, 33, 33, 12%), 0 1px 1px 0 rgba(33, 33, 33, 14%) !important;
+}
+
+.leaflet-control-zoom a {
+  color: #616161 !important;
+  background-color: #fff !important;
+}
