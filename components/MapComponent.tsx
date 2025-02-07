@@ -27,6 +27,22 @@ const MapComponent = () => {
     return () => clearTimeout(getData);
   }, [address]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      axios
+        .get("/api/search/get-address", {
+          params: { lat: position[0], lng: position[1] },
+        })
+        .then((response) => {
+          console.log("API response:", response.data);
+        })
+        .catch((error) => console.error("API error:", error));
+    }, 500);
+
+    // If the position changes again before 500ms, clear the timer.
+    return () => clearTimeout(timer);
+  }, [position]);
+
   const handleSearch = (lat: number, lng: number) => {
     setPosition([lat, lng]);
   };
@@ -46,7 +62,7 @@ const MapComponent = () => {
         <MovingMarker
           position={position}
           setPosition={setPosition}
-          manualMoveRef={manualMoveRef}
+          ref={manualMoveRef}
         />
       </MapContainer>
       <div className="absolute top-4 left-[1rem] bg-white rounded shadow z-[1000] w-[calc(100%-2rem)]">

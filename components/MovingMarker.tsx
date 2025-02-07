@@ -1,11 +1,12 @@
-import React from "react";
-import axios from "axios";
+import React, { forwardRef, memo } from "react";
 import { Icon } from "leaflet";
 import { Marker, useMapEvents } from "react-leaflet";
 
-const MovingMarker = ({ position, setPosition, manualMoveRef }: any) => {
-  const areCoordsEqual = (a: number, b: number, epsilon = 1e-5) =>
-    Math.abs(a - b) < epsilon;
+const MovingMarker = forwardRef(function MovingMarker(
+  { position, setPosition }: any,
+  ref: any
+) {
+  const areEqual = (a: number, b: number) => Math.abs(a - b) < 0.00001;
 
   const customIcon = new Icon({
     iconUrl:
@@ -15,36 +16,19 @@ const MovingMarker = ({ position, setPosition, manualMoveRef }: any) => {
 
   useMapEvents({
     move: (e) => {
-      if (manualMoveRef.current) {
+      if (ref.current) {
         const center = e.target.getCenter();
         const newCenter: [number, number] = [center.lat, center.lng];
         if (
-          !areCoordsEqual(newCenter[0], position[0]) ||
-          !areCoordsEqual(newCenter[1], position[1])
+          !areEqual(newCenter[0], position[0]) ||
+          !areEqual(newCenter[1], position[1])
         ) {
           setPosition(newCenter);
         }
       }
     },
-    moveend: (e) => {
-      if (manualMoveRef.current) {
-        const { lat, lng } = e.target.getCenter();
-        getData(lat, lng);
-      }
-    },
   });
 
-  const getData = async (lat: number, lng: number) => {
-    try {
-      const response = await axios.get("/api/search/get-address", {
-        params: { lat, lng },
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return <Marker position={position} icon={customIcon} />;
-};
-export default MovingMarker;
+});
+export default memo(MovingMarker);
