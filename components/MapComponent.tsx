@@ -6,6 +6,8 @@ import axios from "axios";
 import RecenterMap from "./RecenterMap";
 import MovingMarker from "./MovingMarker";
 import "leaflet/dist/leaflet.css";
+import Search from "./Search";
+import Dropdown from "./Dropdown";
 
 const MapComponent = () => {
   const [address, setAddress] = useState("");
@@ -88,30 +90,15 @@ const MapComponent = () => {
         />
       </MapContainer>
       <div className="absolute top-4 left-[1rem] bg-white rounded shadow z-[1000] w-[calc(100%-2rem)]">
-        <input
-          type="text"
-          placeholder="جستجو"
-          className="p-2 border border-gray-300 rounded w-full outline-none text-sm"
-          dir="rtl"
+        <Search
           value={address}
           onChange={handleChange}
+          placeholder="جستجو"
+          type="text"
+          dir="rtl"
         />
         {isAutoOpen && address.trim() !== "" && (
-          <>
-            {list.map((item: any) => (
-              <div
-                className="flex flex-col justify-end items-end cursor-pointer p-1"
-                key={item?.id}
-                onClick={() => handleSearch(item?.lat, item?.lng)}
-              >
-                <ul>
-                  <li>
-                    <p className="text-sm">{item?.name}</p>
-                  </li>
-                </ul>
-              </div>
-            ))}
-          </>
+          <Dropdown list={list} handleSearch={handleSearch} />
         )}
       </div>
     </div>
