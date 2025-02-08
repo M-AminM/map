@@ -1,4 +1,6 @@
-import React, { forwardRef, memo } from "react";
+"use client";
+
+import React from "react";
 import { Icon } from "leaflet";
 import { Marker, useMapEvents } from "react-leaflet";
 import iconImage from "@/assets/images/icon.svg";
@@ -6,12 +8,14 @@ import iconImage from "@/assets/images/icon.svg";
 type MovingMarkerProps = {
   position: [number, number];
   setPosition: React.Dispatch<React.SetStateAction<[number, number]>>;
+  moveRef: any;
 };
 
-const MovingMarker = forwardRef(function MovingMarker(
-  { position, setPosition }: any,
-  ref: any
-) {
+const MovingMarker = ({
+  position,
+  setPosition,
+  moveRef,
+}: MovingMarkerProps) => {
   const areEqual = (a: number, b: number) => Math.abs(a - b) < 0.00001;
 
   const customIcon = new Icon({
@@ -21,7 +25,7 @@ const MovingMarker = forwardRef(function MovingMarker(
 
   useMapEvents({
     move: (e) => {
-      if (ref.current) {
+      if (moveRef.current) {
         const center = e.target.getCenter();
         const newCenter: [number, number] = [center.lat, center.lng];
         if (
@@ -35,5 +39,6 @@ const MovingMarker = forwardRef(function MovingMarker(
   });
 
   return <Marker position={position} icon={customIcon} />;
-});
-export default memo(MovingMarker);
+};
+
+export default MovingMarker;

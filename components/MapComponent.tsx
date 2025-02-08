@@ -106,7 +106,7 @@ const MapComponent = () => {
         <MovingMarker
           position={position}
           setPosition={setPosition}
-          ref={moveRef}
+          moveRef={moveRef}
         />
       </MapContainer>
       <div className="absolute top-4 left-[1rem] bg-white rounded shadow z-[1000] w-[calc(100%-2rem)]">
