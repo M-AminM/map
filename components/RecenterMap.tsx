@@ -1,14 +1,12 @@
 "use client";
 
-import React, { type RefObject, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useMap } from "react-leaflet";
 
 type RecenterMapProps = {
   position: [number, number];
-  moveRef: RefObject<boolean>;
+  moveRef: React.RefObject<boolean>;
 };
-
-const TOLERANCE = 0.0001;
 
 const RecenterMap = ({ position, moveRef }: RecenterMapProps) => {
   const map = useMap();
@@ -17,7 +15,7 @@ const RecenterMap = ({ position, moveRef }: RecenterMapProps) => {
     const currentCenter = map.getCenter();
     const latDiff = Math.abs(currentCenter.lat - position[0]);
     const lngDiff = Math.abs(currentCenter.lng - position[1]);
-    if (latDiff < TOLERANCE && lngDiff < TOLERANCE) {
+    if (latDiff < 0.0001 && lngDiff < 0.0001) {
       return;
     }
     moveRef.current = false;

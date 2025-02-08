@@ -1,5 +1,5 @@
-import Image from "next/image";
 import React, { type ComponentPropsWithoutRef, type FC } from "react";
+import Image from "next/image";
 import search from "@/assets/images/search.svg";
 
 type SearchProps = ComponentPropsWithoutRef<"input"> & {};

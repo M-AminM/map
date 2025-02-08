@@ -1,5 +1,5 @@
+import React, { type FC } from "react";
 import { List } from "@/types/list";
-import React, { FC } from "react";
 
 type Dropdown = {
   list: List[];

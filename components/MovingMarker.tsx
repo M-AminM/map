@@ -8,7 +8,7 @@ import iconImage from "@/assets/images/icon.svg";
 type MovingMarkerProps = {
   position: [number, number];
   setPosition: React.Dispatch<React.SetStateAction<[number, number]>>;
-  moveRef: any;
+  moveRef: React.RefObject<boolean>;
 };
 
 const MovingMarker = ({
