@@ -12,8 +12,10 @@ const Search: FC<SearchProps> = ({
   dir,
 }) => {
   return (
-    <div className="flex flex-row-reverse px-2 bg-white rounded">
-      <Image src={search} alt="" width={20} height={20} />
+    <div className="flex flex-row-reverse justify-center px-2 bg-white rounded">
+      <div className="flex ">
+        <Image src={search} alt="" width={20} height={20} />
+      </div>
       <input
         type={type}
         placeholder={placeholder}
