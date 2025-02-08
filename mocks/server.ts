@@ -1,13 +1,9 @@
+import { List } from "@/types/list";
 import { createServer, Model } from "miragejs";
-import addressFactory from "./factories/address";
 
 export function makeServer({ environment = "development" } = {}) {
   return createServer({
     environment,
-
-    factories: {
-      ...addressFactory,
-    },
 
     models: {
       address: Model,
@@ -15,7 +11,7 @@ export function makeServer({ environment = "development" } = {}) {
     },
 
     seeds(server: any) {
-      server.create("address");
+      server.create("address", { address: ["tehran", "tajrish"] });
 
       server.create("search", {
         name: "تجریش",
@@ -54,7 +50,7 @@ export function makeServer({ environment = "development" } = {}) {
         let { address }: any = request.queryParams;
 
         if (address) {
-          return schema.searches.where((search: any) => {
+          return schema.searches.where((search: List) => {
             return search.name.toLowerCase().includes(address.toLowerCase());
           });
         }
