@@ -1,14 +1,15 @@
+import { List } from "@/types/list";
 import React, { FC } from "react";
 
 type Dropdown = {
-  list: any;
+  list: List[];
   handleSearch: (lat: number, lng: number) => void;
 };
 
 const Dropdown: FC<Dropdown> = ({ list, handleSearch }) => {
   return (
     <>
-      {list.map((item: any) => (
+      {list.map((item: List) => (
         <ul
           className="flex flex-col justify-end items-end cursor-pointer p-1"
           key={item?.id}

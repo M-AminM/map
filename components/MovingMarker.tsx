@@ -3,6 +3,11 @@ import { Icon } from "leaflet";
 import { Marker, useMapEvents } from "react-leaflet";
 import iconImage from "@/assets/images/icon.svg";
 
+type MovingMarkerProps = {
+  position: [number, number];
+  setPosition: React.Dispatch<React.SetStateAction<[number, number]>>;
+};
+
 const MovingMarker = forwardRef(function MovingMarker(
   { position, setPosition }: any,
   ref: any

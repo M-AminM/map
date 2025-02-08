@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, type ChangeEvent } from "react";
 import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import axios from "axios";
 import RecenterMap from "./RecenterMap";
@@ -10,13 +10,14 @@ import Search from "./Search";
 import Dropdown from "./Dropdown";
 import Image from "next/image";
 import location from "@/assets/images/location.svg";
+import { List } from "@/types/list";
 
 const MapComponent = () => {
-  const [address, setAddress] = useState("");
-  const [list, setList] = useState([]);
+  const [address, setAddress] = useState<string>("");
+  const [list, setList] = useState<List[]>([]);
   const [position, setPosition] = useState<[number, number]>([35.6892, 51.389]);
-  const [isAutoOpen, setIsAutoOpen] = useState(true);
-  const manualMoveRef = useRef(true);
+  const [isAutoOpen, setIsAutoOpen] = useState<boolean>(true);
+  const moveRef = useRef(true);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -68,11 +69,12 @@ const MapComponent = () => {
     setAddress("");
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === "") setList([]);
     if (e.target.value !== "" && !isAutoOpen) setIsAutoOpen(true);
     setAddress(e.target.value);
   };
+
   const handleGetLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -100,11 +102,11 @@ const MapComponent = () => {
       >
         <ZoomControl position="bottomleft" />
         <TileLayer url="https://raster.snappmaps.ir/styles/snapp-style/{z}/{x}/{y}{r}.png" />
-        <RecenterMap position={position} manualMoveRef={manualMoveRef} />
+        <RecenterMap position={position} moveRef={moveRef} />
         <MovingMarker
           position={position}
           setPosition={setPosition}
-          ref={manualMoveRef}
+          ref={moveRef}
         />
       </MapContainer>
       <div className="absolute top-4 left-[1rem] bg-white rounded shadow z-[1000] w-[calc(100%-2rem)]">

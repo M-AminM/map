@@ -1,22 +1,27 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { type RefObject, useEffect } from "react";
 import { useMap } from "react-leaflet";
 
-const RecenterMap = ({ position, manualMoveRef }: any) => {
+type RecenterMapProps = {
+  position: [number, number];
+  moveRef: RefObject<boolean>;
+};
+
+const RecenterMap = ({ position, moveRef }: RecenterMapProps) => {
   const map = useMap();
 
   useEffect(() => {
-    manualMoveRef.current = false;
+    moveRef.current = false;
     map.flyTo(position, map.getZoom());
     const onMoveEnd = () => {
-      manualMoveRef.current = true;
+      moveRef.current = true;
     };
     map.once("moveend", onMoveEnd);
     return () => {
       map.off("moveend", onMoveEnd);
     };
-  }, [position, map, manualMoveRef]);
+  }, [position, map, moveRef]);
 
   return null;
 };
