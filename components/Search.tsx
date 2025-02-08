@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import React, { type ComponentPropsWithoutRef, type FC } from "react";
 import search from "@/assets/images/search.svg";
