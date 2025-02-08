@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { type FC, useEffect } from "react";
 import { useMap } from "react-leaflet";
 
 type RecenterMapProps = {
@@ -8,7 +8,7 @@ type RecenterMapProps = {
   moveRef: React.RefObject<boolean>;
 };
 
-const RecenterMap = ({ position, moveRef }: RecenterMapProps) => {
+const RecenterMap: FC<RecenterMapProps> = ({ position, moveRef }) => {
   const map = useMap();
 
   useEffect(() => {

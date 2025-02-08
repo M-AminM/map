@@ -56,6 +56,7 @@ const MapComponent = () => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {
         setIsAutoOpen(false);
+        setList([]);
       }
     };
 
