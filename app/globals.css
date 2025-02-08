@@ -25,3 +25,10 @@ body {
   color: #616161 !important;
   background-color: #fff !important;
 }
+
+.leaflet-left .leaflet-control {
+  margin-left: 1rem !important;
+}
+.leaflet-bottom .leaflet-control {
+  margin-bottom: 1rem !important;
+}

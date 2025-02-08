@@ -11,12 +11,12 @@ const Dropdown: FC<Dropdown> = ({ list, handleSearch }) => {
     <>
       {list.map((item: List) => (
         <ul
-          className="flex flex-col justify-end items-end cursor-pointer p-1"
+          className="flex flex-col justify-end items-end cursor-pointer px-2 py-1"
           key={item?.id}
           onClick={() => handleSearch(item?.lat, item?.lng)}
         >
           <li>
-            <p className="text-sm">{item?.name}</p>
+            <p className="text-xs">{item?.name}</p>
           </li>
         </ul>
       ))}

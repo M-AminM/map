@@ -109,7 +109,7 @@ const MapComponent = () => {
           moveRef={moveRef}
         />
       </MapContainer>
-      <div className="absolute top-4 left-[1rem] bg-white rounded shadow z-[1000] w-[calc(100%-2rem)]">
+      <div className="absolute top-4 left-4 bg-white rounded shadow z-[1000] w-[calc(100%-2rem)]">
         <Search
           value={address}
           onChange={handleChange}
@@ -125,7 +125,7 @@ const MapComponent = () => {
       </div>
       <button
         onClick={handleGetLocation}
-        className="absolute bottom-2 right-2 z-[1000] bg-white p-2 rounded shadow"
+        className="absolute bottom-4 right-4 z-[1000] bg-white p-2 rounded shadow"
       >
         <Image src={location} alt="" width={20} height={20} />
       </button>
