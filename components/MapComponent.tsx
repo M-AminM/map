@@ -111,7 +111,10 @@ const MapComponent = () => {
           moveRef={moveRef}
         />
       </MapContainer>
-      <div className="absolute top-4 left-4 bg-white rounded shadow z-[1000] w-[calc(100%-2rem)]">
+      <div
+        className="absolute top-4 left-4 bg-white rounded shadow z-[1000] w-[calc(100%-2rem)]"
+        ref={ref}
+      >
         <Search
           value={address}
           onChange={handleChange}
@@ -120,9 +123,7 @@ const MapComponent = () => {
           dir="rtl"
         />
         {isAutoOpen && address.trim() !== "" && (
-          <div ref={ref}>
-            <Dropdown list={list} handleSearch={handleSearch} />
-          </div>
+          <Dropdown list={list} handleSearch={handleSearch} />
         )}
       </div>
       <button
