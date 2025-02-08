@@ -15,7 +15,9 @@ import { List } from "@/types/list";
 const MapComponent = () => {
   const [address, setAddress] = useState<string>("");
   const [list, setList] = useState<List[]>([]);
-  const [position, setPosition] = useState<[number, number]>([35.6892, 51.389]);
+  const [position, setPosition] = useState<[number, number]>([
+    35.689648586960935, 51.38923645019532,
+  ]);
   const [isAutoOpen, setIsAutoOpen] = useState<boolean>(true);
   const moveRef = useRef(true);
   const ref = useRef<HTMLDivElement>(null);

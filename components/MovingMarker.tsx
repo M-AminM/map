@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { Icon } from "leaflet";
 import { Marker, useMapEvents } from "react-leaflet";
 import iconImage from "@/assets/images/icon.svg";
@@ -18,10 +18,14 @@ const MovingMarker = ({
 }: MovingMarkerProps) => {
   const areEqual = (a: number, b: number) => Math.abs(a - b) < 0.00001;
 
-  const customIcon = new Icon({
-    iconUrl: iconImage.src,
-    iconSize: [30, 30],
-  });
+  const customIcon = useMemo(
+    () =>
+      new Icon({
+        iconUrl: iconImage.src,
+        iconSize: [30, 30],
+      }),
+    []
+  );
 
   useMapEvents({
     move: (e) => {
